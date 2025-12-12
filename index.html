@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Monu Jangra — Penetration Tester & Bug Bounty Hunter</title>
+  <meta name="description" content="Monu Jangra — Offensive Security Engineer. CPENT, LPT. Bug bounty hunter. Portfolio, writeups, experience and contact." />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg-1: #040616; --bg-2:#07142a;
+      --accent-a:#2ee6b6; --accent-b:#7c5cff; --muted:#9fb0c6;
+      --maxw:1200px; --radius:16px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%;margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Helvetica,Arial;color:#e6eef6;background:linear-gradient(180deg,var(--bg-1),var(--bg-2));-webkit-font-smoothing:antialiased}
+    .scene{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+    .layer{position:absolute;inset:0;transform-origin:center;will-change:transform}
+    .layer.bg-dots{background-image:radial-gradient(rgba(124,58,237,0.06) 1px, transparent 1px);background-size:40px 40px;opacity:0.6;mix-blend-mode:screen}
+    .layer.grid{background-image:linear-gradient(transparent 1px, rgba(255,255,255,0.01) 1px), linear-gradient(90deg, transparent 1px, rgba(255,255,255,0.01) 1px);background-size:100px 100px,100px 100px;opacity:0.06}
+    .layer.glow{background:radial-gradient(circle at 10% 10%, rgba(124,58,237,0.12), transparent 15%), radial-gradient(circle at 90% 80%, rgba(46,230,182,0.08), transparent 18%);mix-blend-mode:screen;opacity:0.9}
+
+    .container{position:relative;max-width:var(--maxw);margin:44px auto;padding:32px;z-index:2}
+    header{display:flex;align-items:center;justify-content:space-between;gap:18px}
+    .brand{display:flex;align-items:center;gap:14px}
+    .logo{width:68px;height:68px;border-radius:14px;display:grid;place-items:center;font-weight:800;color:#042028;background:linear-gradient(135deg,var(--accent-a),var(--accent-b));box-shadow:0 18px 60px rgba(124,58,237,0.12)}
+    h1{margin:0;font-size:22px}
+    .subtitle{color:var(--muted);font-size:13px}
+    nav{display:flex;gap:10px}
+    .nav-link{color:var(--muted);text-decoration:none;padding:8px 12px;border-radius:10px;font-weight:600}
+    .nav-link:hover{color:var(--accent-a)}
+
+    .stage{perspective:1400px}
+    .hero{display:grid;grid-template-columns:1fr 380px;gap:28px;margin-top:28px;align-items:start}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01));border-radius:var(--radius);padding:22px;border:1px solid rgba(255,255,255,0.03);box-shadow:0 20px 60px rgba(2,6,23,0.7);transform-style:preserve-3d;transition:transform 300ms cubic-bezier(.2,.9,.3,1)}
+    .card .layer-front{position:relative;z-index:3}
+    .card .card-depth{position:absolute;inset:0;border-radius:inherit;pointer-events:none;transform:translateZ(-40px) scale(.98);filter:blur(18px);opacity:0.12}
+
+    .kicker{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:0.09em}
+    .lead{font-size:18px;margin:10px 0 0 0}
+    .muted{color:var(--muted)}
+    .stats{display:flex;gap:12px;margin-top:14px}
+    .stat{flex:1;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);text-align:center;backdrop-filter:blur(4px)}
+    .stat strong{display:block;font-size:18px}
+
+    .cta{display:flex;gap:12px;margin-top:16px}
+    .btn{padding:10px 14px;border-radius:12px;font-weight:700;text-decoration:none;border:1px solid rgba(255,255,255,0.04);background:linear-gradient(90deg, rgba(124,58,237,0.06), rgba(46,230,182,0.04));color:var(--accent-a)}
+    .btn.secondary{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.02)}
+
+    .aside .pill{display:inline-flex;align-items:center;gap:8px;padding:8px 12px;border-radius:999px;background:rgba(255,255,255,0.02);font-weight:700;color:var(--muted)}
+    .tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .tool{padding:8px 10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), transparent);font-size:13px;color:var(--muted)}
+
+    section{margin-top:22px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    .writeup-list{display:flex;flex-direction:column;gap:10px}
+    .writeup{display:flex;gap:12px;align-items:flex-start;padding:12px;border-radius:10px;border:1px solid rgba(255,255,255,0.02);background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+    .tag{font-size:12px;padding:6px 8px;border-radius:8px;background:linear-gradient(90deg, rgba(124,58,237,0.06), rgba(46,230,182,0.04));color:#042028;font-weight:700}
+
+    .hof{display:flex;flex-direction:column;gap:10px}
+    .hof-item{display:flex;align-items:center;justify-content:space-between;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent)}
+
+    form{display:grid;gap:10px}
+    input,textarea,select{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px;border-radius:8px;color:#e6eef6;font-size:14px}
+    textarea{min-height:120px}
+    footer{margin:40px 0 80px;color:var(--muted);text-align:center}
+
+    .tilt{transform-style:preserve-3d;transition:transform 180ms ease-out}
+    .tilt:hover{box-shadow:0 30px 80px rgba(2,6,23,0.8)}
+    .shine{position:absolute;inset:0;border-radius:inherit;pointer-events:none;background:linear-gradient(120deg, rgba(255,255,255,0.02), transparent 25%);mix-blend-mode:overlay}
+
+    @media (max-width:980px){.hero{grid-template-columns:1fr}.grid-3{grid-template-columns:repeat(2,1fr)}.container{padding:18px}}
+    @media (max-width:560px){.grid-3{grid-template-columns:1fr}.logo{width:56px;height:56px}.nav{display:none}}
+
+    .fade-up{transform:translateY(8px) translateZ(0);opacity:0;animation:fadeUp .6s forwards}
+    .delay-1{animation-delay:.06s}.delay-2{animation-delay:.12s}.delay-3{animation-delay:.18s}
+    @keyframes fadeUp{to{transform:none;opacity:1}}
+    pre{background:rgba(0,0,0,0.45);padding:12px;border-radius:8px;color:#bfeee0;overflow:auto;font-family:ui-monospace, SFMono-Regular, Menlo, Monaco}
+    a:focus,input:focus,button:focus,textarea:focus{outline:3px solid rgba(46,230,182,0.12);outline-offset:3px}
+  </style>
+</head>
+<body>
+  <!-- Parallax background -->
+  <div class="scene" aria-hidden="true">
+    <div class="layer bg-dots" data-depth="0.02"></div>
+    <div class="layer grid" data-depth="0.04"></div>
+    <div class="layer glow" data-depth="0.06"></div>
+  </div>
+
+  <div class="container stage">
+    <header class="fade-up delay-1">
+      <div class="brand">
+        <div class="logo">MJ</div>
+        <div>
+          <h1>Monu Jangra</h1>
+          <div class="subtitle">Offensive Security Engineer • CPENT • LPT</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <a class="nav-link" href="#about">About</a>
+        <a class="nav-link" href="#experience">Experience</a>
+        <a class="nav-link" href="#projects">Projects</a>
+        <a class="nav-link" href="#certs">Certs</a>
+        <a class="nav-link" href="#contact">Contact</a>
+      </nav>
+    </header>
+
+    <main class="hero">
+      <!-- Left: main profile -->
+      <section class="card tilt fade-up delay-2" id="about-card" aria-labelledby="hero-title">
+        <div class="card-depth" style="background:linear-gradient(180deg, rgba(46,230,182,0.04), transparent);"></div>
+        <div class="layer-front">
+          <div class="kicker">Offensive Security Engineer</div>
+          <h2 id="hero-title" class="lead">I find high-impact vulnerabilities in web, API and cloud environments — I turn findings into clear, actionable remediation.</h2>
+          <p class="muted" style="margin-top:12px">
+            Offensive Security Engineer with 1.7+ years experience in VAPT, penetration testing, cloud security and secure architecture design. Skilled in identifying & remediating high-impact vulnerabilities, automating CI/CD security checks, and delivering executive-friendly reports.
+          </p>
+
+          <div class="stats" style="margin-top:14px">
+            <div class="stat"><div class="muted">Programs</div><strong>35+</strong></div>
+            <div class="stat"><div class="muted">Findings</div><strong>70+</strong></div>
+            <div class="stat"><div class="muted">Top Reward</div><strong>₹1.5L+</strong></div>
+          </div>
+
+          <div class="cta">
+            <a class="btn" href="#contact">Hire / Mentorship</a>
+            <a class="btn secondary" href="#projects">See Projects</a>
+          </div>
+
+          <section id="experience" style="margin-top:18px;">
+            <h3>Experience</h3>
+            <div style="margin-top:10px">
+              <strong>Cyber Security Engineer — Kasper Infotech (Noida)</strong>
+              <div class="muted">Aug 2025 – Present</div>
+              <ul class="muted">
+                <li>End-to-end VAPT on applications and infrastructure; identified & remediated critical vulnerabilities.</li>
+                <li>Designed secure, scalable web architectures and automated CI/CD security workflows.</li>
+                <li>Delivered executive reports and awareness sessions to strengthen security posture.</li>
+              </ul>
+
+              <strong style="margin-top:8px;display:block">Security Engineer — IssueService.in (Remote)</strong>
+              <div class="muted">Apr 2025 – Aug 2025</div>
+              <ul class="muted">
+                <li>Led cloud security initiatives across AWS: IAM hardening, audits with GuardDuty, Inspector, Security Hub.</li>
+                <li>Automated alerting workflows and CI/CD improvements in collaboration with dev teams.</li>
+              </ul>
+
+              <strong style="margin-top:8px;display:block">Security Analyst — Legit Bytes (Earthling Security)</strong>
+              <div class="muted">Jul 2024 – Apr 2025</div>
+              <ul class="muted">
+                <li>Configured real-time alerts, audited AWS environments for misconfigurations and permissions.</li>
+                <li>Contributed to DR planning, MDM deployment, and VAPT remediation.</li>
+              </ul>
+
+              <strong style="margin-top:8px;display:block">Penetration Tester (Intern) — Secure Hack (Mohali)</strong>
+              <div class="muted">Jul 2023 – Sep 2023</div>
+              <ul class="muted">
+                <li>Conducted controlled assessments on systems, applications and networks; delivered remediation reports.</li>
+              </ul>
+            </div>
+          </section>
+
+        </div>
+        <div class="shine"></div>
+      </section>
+
+      <!-- Right: contact & quick info -->
+      <aside class="aside" style="width:380px">
+        <div class="card tilt fade-up delay-3">
+          <div class="card-depth" style="background:linear-gradient(180deg, rgba(124,58,237,0.035), transparent);"></div>
+          <div class="layer-front">
+            <div class="pill">Let's collaborate</div>
+            <div style="margin-top:12px">
+              <div class="small muted">Email</div>
+              <div style="margin-top:6px"><strong>monujangra070@gmail.com</strong></div>
+              <div class="small muted" style="margin-top:6px">Phone</div>
+              <div style="margin-top:4px"><strong>+91-8569901738</strong></div>
+              <div class="small muted" style="margin-top:6px">Location</div>
+              <div style="margin-top:4px"><strong>Jind, Haryana, India</strong></div>
+            </div>
+
+            <div style="margin-top:12px">
+              <h4 style="margin:0 0 8px 0">Skills & Tools</h4>
+              <div class="tools">
+                <span class="tool">Burp Suite</span>
+                <span class="tool">ffuf</span>
+                <span class="tool">amass</span>
+                <span class="tool">nuclei</span>
+                <span class="tool">sqlmap</span>
+                <span class="tool">Nmap</span>
+                <span class="tool">Powerpipe/Steampipe</span>
+              </div>
+            </div>
+
+            <div style="margin-top:12px">
+              <h4 style="margin:0 0 8px 0">Certifications</h4>
+              <div class="muted">LPT, CPENT, EHE, TryHackMe Jr. tracks</div>
+            </div>
+
+            <div style="margin-top:12px;display:flex;gap:8px">
+              <a class="btn" href="#contact">Contact</a>
+              <a class="btn secondary" href="https://linkedin.com/in/monu-jangra-a129aa175" target="_blank">LinkedIn</a>
+            </div>
+          </div>
+          <div class="shine"></div>
+        </div>
+      </aside>
+    </main>
+
+    <!-- Projects -->
+    <section id="projects">
+      <div class="card fade-up">
+        <h3>Projects & Contributions</h3>
+        <p class="muted">Relevant projects, tools and dashboards I built or contributed to.</p>
+
+        <div class="grid-3" style="margin-top:12px">
+          <div class="card" style="padding:14px;">
+            <h4 style="margin-top:0">AWS Chatbot + Slack Alerts</h4>
+            <p class="muted">Automated cloud security notifications in Slack using AWS Chatbot, CloudWatch, SNS and IAM.</p>
+          </div>
+
+          <div class="card" style="padding:14px;">
+            <h4 style="margin-top:0">Vulnerability Dashboard — Powerpipe + Steampipe</h4>
+            <p class="muted">Built dashboard aggregating AWS vulnerability data with real-time filters and compliance views.</p>
+          </div>
+
+          <div class="card" style="padding:14px;">
+            <h4 style="margin-top:0">Bug Bounty & CTF</h4>
+            <p class="muted">70+ critical/important vulnerabilities discovered (SQLi, Path Traversal, Subdomain Takeover). Participated in IIT Bombay CTF.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Certifications & Education -->
+    <section id="certs">
+      <div class="card fade-up">
+        <h3>Education & Certifications</h3>
+        <div style="margin-top:10px">
+          <strong>B.Sc. in Cybersecurity — Chandigarh Group of Colleges, Landran</strong>
+          <div class="muted">Jul 2021 – Apr 2024 • GPA: 7.20/10</div>
+          <ul class="muted">
+            <li>Coursework: Ethical Hacking, AWS Security, Incident Response.</li>
+            <li>Practical labs: Firewall deployment, Cloud security, Cisco CCNA.</li>
+          </ul>
+
+          <strong style="margin-top:8px;display:block">Certifications</strong>
+          <ul class="muted">
+            <li>Licensed Penetration Tester (LPT) — EC-Council</li>
+            <li>Certified Penetration Tester (CPENT) — EC-Council</li>
+            <li>Ethical Hacking Essentials (EHE) — EC-Council</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hall of Fame / Recognition -->
+    <section id="hof">
+      <div class="card fade-up">
+        <h3>Hall of Fame & Recognition</h3>
+        <div class="hof" style="margin-top:12px">
+          <div class="hof-item"><div>Acme Corp</div><div class="muted">Acknowledged</div></div>
+          <div class="hof-item"><div>SecureShop</div><div class="muted">Bounty Paid</div></div>
+          <div class="hof-item"><div>BankX (redacted)</div><div class="muted">Private</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact">
+      <div class="card fade-up">
+        <h3>Contact</h3>
+        <p class="muted">For mentorship, audits, or collaboration, share scope and timelines. Full report samples require permission / NDA.</p>
+        <form onsubmit="event.preventDefault(); alert('Thank you — please email monujangra070@gmail.com or use the contact links.');">
+          <input type="text" placeholder="Your name *" required />
+          <input type="email" placeholder="Your email *" required />
+          <input type="text" placeholder="Project / Company" />
+          <textarea placeholder="Brief description / scope"></textarea>
+          <div style="display:flex;gap:8px">
+            <button class="btn" type="submit">Send Message</button>
+            <a class="btn secondary" href="mailto:monujangra070@gmail.com">Email Directly</a>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <footer>
+      <div class="muted">© 2025 Monu Jangra • Content based on uploaded resume. :contentReference[oaicite:1]{index=1}</div>
+    </footer>
+  </div>
+
+  <script>
+    // Parallax background
+    (function(){
+      const layers = document.querySelectorAll('.scene .layer');
+      const clamp = (v,a,b)=> Math.max(a, Math.min(b,v));
+      window.addEventListener('mousemove', (e)=>{
+        const cx = window.innerWidth/2, cy = window.innerHeight/2;
+        const dx = (e.clientX - cx)/cx; const dy = (e.clientY - cy)/cy;
+        layers.forEach(layer=>{
+          const depth = parseFloat(layer.getAttribute('data-depth')) || 0.03;
+          const tx = clamp(dx * depth * 40, -30, 30);
+          const ty = clamp(dy * depth * 20, -20, 20);
+          layer.style.transform = `translate3d(${tx}px, ${ty}px, 0) rotate(${tx/40}deg)`;
+        });
+      });
+    })();
+
+    // Tilt effect for cards
+    (function(){
+      const tilts = document.querySelectorAll('.tilt');
+      tilts.forEach(el=>{
+        const rectFn = ()=>el.getBoundingClientRect();
+        const onMove = (e)=>{
+          const r = rectFn();
+          const px = (e.clientX - r.left)/r.width;
+          const py = (e.clientY - r.top)/r.height;
+          const rotY = (px - 0.5) * 14;
+          const rotX = (0.5 - py) * 10;
+          el.style.transform = `rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(0)`;
+          const depthEl = el.querySelector('.card-depth');
+          if(depthEl) depthEl.style.transform = `translateZ(-40px) translate(${rotY/6}px,${rotX/6}px) scale(.985)`;
+        };
+        const reset = ()=>{ el.style.transform='none'; const d=el.querySelector('.card-depth'); if(d) d.style.transform='translateZ(-40px) scale(.98)'; };
+        el.addEventListener('mousemove', onMove);
+        el.addEventListener('mouseleave', reset);
+        el.addEventListener('touchstart', ()=>{});
+      });
+    })();
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault(); const t=document.querySelector(a.getAttribute('href')); if(t) t.scrollIntoView({behavior:'smooth',block:'start'}); }));
+  </script>
+</body>
+</html>
